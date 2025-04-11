@@ -1,13 +1,12 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:car_reservation_system/screens/auth/sc_signup.dart';
+import 'package:car_reservation_system/screens/auth/sc-signup.dart';
+import 'package:car_reservation_system/screens/opt-screen-handler.dart';
 
 import 'package:car_reservation_system/utils/gap.dart';
 import 'package:car_reservation_system/utils/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../home/sc_home.dart';
 
 class LoginScreen extends StatelessWidget with CustomColors {
   LoginScreen({super.key});
@@ -123,7 +122,7 @@ class LoginScreen extends StatelessWidget with CustomColors {
                       gap(size.width * 0.1),
                       ElevatedButton(
                         onPressed: () {
-                          Get.offAll(() => HomeScreen());
+                          Get.offAll(() => ScreenHandler());
                         },
                         iconAlignment: IconAlignment.end,
                         style: ElevatedButton.styleFrom(

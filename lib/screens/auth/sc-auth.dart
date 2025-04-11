@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:car_reservation_system/screens/auth/sc_signup.dart';
+import 'package:car_reservation_system/screens/auth/sc-signup.dart';
 import 'package:car_reservation_system/utils/gap.dart';
 import 'package:car_reservation_system/utils/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/navigation.dart';
-import 'sc_login.dart';
+import 'sc-login.dart';
 
 class AuthScreen extends StatelessWidget with CustomColors {
   AuthScreen({super.key});

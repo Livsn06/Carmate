@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:car_reservation_system/screens/notification/sc-notif.dart';
 import 'package:car_reservation_system/utils/gap.dart';
+import 'package:car_reservation_system/utils/navigation.dart';
 import 'package:car_reservation_system/utils/ui/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,9 @@ class HomeScreen extends StatelessWidget with CustomColors {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
-            onPressed: () {},
+            onPressed: () {
+              navigateTo(route: NotificationScreen());
+            },
           ),
         ],
       ),

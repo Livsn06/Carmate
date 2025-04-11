@@ -1,12 +1,11 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:car_reservation_system/screens/auth/sc_auth.dart';
-import 'package:car_reservation_system/utils/gap.dart';
-import 'package:car_reservation_system/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/gap.dart';
 import '../../utils/ui/colors.dart';
+import '../auth/sc-auth.dart';
 
 class SplashScreen extends StatelessWidget with CustomColors {
   SplashScreen({super.key});
