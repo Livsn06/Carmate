@@ -1,4 +1,4 @@
-import 'package:car_reservation_system/screens/start/sc_splash.dart';
+import 'package:car_reservation_system/screens/start/sc-splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
