@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-
 class NotificationItem {
   final String id;
   final String title;
   final String body;
   final DateTime timestamp;
   bool isRead;
-  final String? image; //  Optional icon
+  final String? imageUrl; //  Optional icon
 
   NotificationItem({
     required this.id,
@@ -14,7 +12,7 @@ class NotificationItem {
     required this.body,
     required this.timestamp,
     this.isRead = false,
-    this.image,
+    this.imageUrl,
   });
 
   // factory NotificationItem.fromJson(Map<String, dynamic> json) {
