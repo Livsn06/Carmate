@@ -115,8 +115,8 @@ class NotificationScreen extends StatelessWidget {
         padding: EdgeInsets.all(size.width * 0.02),
         child: ListTile(
           leading: CircleAvatar(
-            backgroundImage: item.image != null
-                ? NetworkImage(item.image!)
+            backgroundImage: item.imageUrl != null
+                ? NetworkImage(item.imageUrl!)
                 : const AssetImage('assets/images/logo2.png'),
           ),
           title: Text(
