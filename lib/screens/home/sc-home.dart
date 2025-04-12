@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:car_reservation_system/screens/car/sc-car-information.dart';
 import 'package:car_reservation_system/screens/notification/sc-notif.dart';
 import 'package:car_reservation_system/utils/gap.dart';
 import 'package:car_reservation_system/utils/navigation.dart';
