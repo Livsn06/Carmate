@@ -114,22 +114,25 @@ class HomeScreen extends StatelessWidget with CustomColors {
     required String price,
     required String imageUrl,
   }) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(size.width * 0.02),
-        child: ListTile(
-          leading: Image.network(
-            imageUrl,
-            width: size.width * 0.3,
-            height: size.width * 0.3,
-            fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () => navigateTo(route: CarInformationScreen()),
+      child: Card(
+        child: Padding(
+          padding: EdgeInsets.all(size.width * 0.02),
+          child: ListTile(
+            leading: Image.network(
+              imageUrl,
+              width: size.width * 0.3,
+              height: size.width * 0.3,
+              fit: BoxFit.cover,
+            ),
+            title: Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(price),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded),
           ),
-          title: Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(price),
-          trailing: const Icon(Icons.arrow_forward_ios_rounded),
         ),
       ),
     );
