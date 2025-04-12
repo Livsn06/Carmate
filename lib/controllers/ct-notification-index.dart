@@ -77,7 +77,7 @@ final List<NotificationItem> _allNotifications = [
     body: 'Notification Body 3',
     timestamp: DateTime.now().subtract(const Duration(minutes: 4)),
     isRead: false,
-    image:
+    imageUrl:
         "https://c8.alamy.com/comp/2RAMHHB/milton-keynesuk-july-2nd-2023-2017-blue-bmw-320-car-travelling-on-an-english-country-road-2RAMHHB.jpg",
   ),
   NotificationItem(
