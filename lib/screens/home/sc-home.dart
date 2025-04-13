@@ -214,6 +214,14 @@ class HomeScreen extends StatelessWidget with CustomColors {
         hintText: 'Search',
         suffixIcon: Icon(Icons.search, color: grey),
       ),
+      ),
+    );
+  }
+
+  Widget _buildDateRangePicker({Function()? onPressed}) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: const Icon(Icons.calendar_month),
     );
   }
 
