@@ -34,122 +34,126 @@ class CarInformationScreen extends StatelessWidget {
           );
         } else {
           return SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Padding(
-            padding: EdgeInsets.all(size.width * 0.03),
-            child: Column(children: [
-              ClipRRect(
-                child: Image.network(
-                  'http://d1hv7ee95zft1i.cloudfront.net/custom/blog-post-photo/gallery/toyota-fortuner-630f315461ab8.jpg',
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: size.width * 0.7,
-                ),
-              ),
-              gap(size.width * 0.05),
-              Text(
-                'Toyota Fortuner',
-                style: TextStyle(
-                  fontSize: size.width * 0.07,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              gap(size.width * 0.02),
-              Text(
-                'Php 5,000/day',
-                style: TextStyle(
-                  fontSize: size.width * 0.05,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                ),
-              ),
-              gap(size.width * 0.01),
-              Text(
-                '(Available)',
-                style: TextStyle(
-                  fontSize: size.width * 0.05,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.green,
-                ),
-              ),
-              gap(size.width * 0.04),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(size.width * 0.6, size.width * 0.1),
-                  foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF884CCE),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(size.width * 0.02),
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Padding(
+                padding: EdgeInsets.all(size.width * 0.03),
+                child: Column(children: [
+                  ClipRRect(
+                    child: Image.network(
+                      car.imageUrl,
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: size.width * 0.7,
+                    ),
                   ),
-                ),
-                child: const Text('Book Now'),
-              ),
-              const Divider(color: Color(0xFFC7C7C7), thickness: 0.5),
-              Card(
-                margin: const EdgeInsets.only(top: 0, bottom: 0),
-                color: Colors.white,
-                shape: const LinearBorder(),
-                elevation: 2.0,
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.contact_phone,
-                    color: Color(0xFF884CCE),
+                  gap(size.width * 0.05),
+                  Text(
+                    car.name,
+                    style: TextStyle(
+                      fontSize: size.width * 0.07,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                  title: const Text(
-                    'John Doe',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  gap(size.width * 0.02),
+                  Text(
+                    car.rental_price,
+                    style: TextStyle(
+                      fontSize: size.width * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                    ),
                   ),
-                  subtitle: const Text('john.doe@example.com'),
-                  trailing: IconButton(
+                  gap(size.width * 0.01),
+                  Text(
+                    '(${car.status})',
+                    style: TextStyle(
+                      fontSize: size.width * 0.05,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.green,
+                    ),
+                  ),
+                  gap(size.width * 0.04),
+                  ElevatedButton(
                     onPressed: () {},
-                    icon: const Icon(Icons.edit),
-                    color: const Color(0xFF884CCE),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(size.width * 0.6, size.width * 0.1),
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFF884CCE),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(size.width * 0.02),
+                      ),
+                    ),
+                    child: const Text('Book Now'),
                   ),
-                ),
+                  const Divider(color: Color(0xFFC7C7C7), thickness: 0.5),
+                  Card(
+                    margin: const EdgeInsets.only(top: 0, bottom: 0),
+                    color: Colors.white,
+                    shape: const LinearBorder(),
+                    elevation: 2.0,
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.contact_phone,
+                        color: Color(0xFF884CCE),
+                      ),
+                      title: const Text(
+                        'John Doe',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: const Text('john.doe@example.com'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit),
+                        color: const Color(0xFF884CCE),
+                      ),
+                    ),
+                  ),
+                  const Divider(color: Color(0xFFC7C7C7), thickness: 0.5),
+                  gap(size.width * 0.04),
+                  _buildAccordion(
+                    title: 'Car Information',
+                    widgetItems: [
+                      _buildAccordionItems(
+                          title: 'Name: ', value: 'Toyota Fortuner'),
+                      gap(8),
+                      _buildAccordionItems(
+                          title: 'Model: ', value: 'Fortuner 2022'),
+                      gap(8),
+                      _buildAccordionItems(
+                          title: 'Transmission: ', value: 'Automatic'),
+                      gap(8),
+                      _buildAccordionItems(title: 'Seats: ', value: '4'),
+                    ],
+                  ),
+                  gap(10),
+                  _buildAccordion(
+                    title: 'Owner Information',
+                    widgetItems: [
+                      _buildAccordionItems(title: 'Name: ', value: 'John Doe'),
+                      gap(8),
+                      _buildAccordionItems(
+                          title: 'Address: ', value: '123 Main St'),
+                      gap(8),
+                      _buildAccordionItems(
+                          title: 'Contact: ',
+                          value: '123-456-7890',
+                          isCopy: true),
+                      gap(8),
+                      _buildAccordionItems(
+                          title: 'Email: ',
+                          value: 'qgYHd@example.com',
+                          isCopy: true),
+                    ],
+                  ),
+                ]),
               ),
-              const Divider(color: Color(0xFFC7C7C7), thickness: 0.5),
-              gap(size.width * 0.04),
-              _buildAccordion(
-                title: 'Car Information',
-                widgetItems: [
-                  _buildAccordionItems(
-                      title: 'Name: ', value: 'Toyota Fortuner'),
-                  gap(8),
-                  _buildAccordionItems(
-                      title: 'Model: ', value: 'Fortuner 2022'),
-                  gap(8),
-                  _buildAccordionItems(
-                      title: 'Transmission: ', value: 'Automatic'),
-                  gap(8),
-                  _buildAccordionItems(title: 'Seats: ', value: '4'),
-                ],
-              ),
-              gap(10),
-              _buildAccordion(
-                title: 'Owner Information',
-                widgetItems: [
-                  _buildAccordionItems(title: 'Name: ', value: 'John Doe'),
-                  gap(8),
-                  _buildAccordionItems(
-                      title: 'Address: ', value: '123 Main St'),
-                  gap(8),
-                  _buildAccordionItems(
-                      title: 'Contact: ', value: '123-456-7890', isCopy: true),
-                  gap(8),
-                  _buildAccordionItems(
-                      title: 'Email: ',
-                      value: 'qgYHd@example.com',
-                      isCopy: true),
-                ],
-              ),
-            ]),
-          ),
-        ),
-      ),
+            ),
+          );
+        }
+      }),
     );
   }
 
