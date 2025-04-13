@@ -25,7 +25,15 @@ class CarInformationScreen extends StatelessWidget {
         title: const Text('Car Information'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Obx(() {
+        CarInformation? car = carInformationController.car.value;
+
+        if (car == null) {
+          return const Center(
+            child: Text('Error loading', style: TextStyle(color: Colors.grey)),
+          );
+        } else {
+          return SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
