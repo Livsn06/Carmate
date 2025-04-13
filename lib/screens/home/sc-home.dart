@@ -239,32 +239,47 @@ class HomeScreen extends StatelessWidget with CustomColors {
     );
   }
 
-  Widget _buildCarCard({
-    required String title,
-    required String price,
-    required String imageUrl,
-  }) {
+  Widget _buildCarCard({required CarInformation car}) {
     return GestureDetector(
-      onTap: () => navigateTo(route: CarInformationScreen()),
+      onTap: () => navigateTo(route: CarInformationScreen(), arguments: car.id),
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.02),
           child: ListTile(
             leading: Image.network(
-              imageUrl,
+              car.imageUrl,
               width: size.width * 0.3,
               height: size.width * 0.3,
               fit: BoxFit.cover,
             ),
             title: Text(
-              title,
+              car.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(price),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  car.transmission,
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                gap(size.width * 0.02),
+                Text(car.rental_price),
+                gap(size.width * 0.01),
+                Text(
+                  car.status,
+                  style: const TextStyle(color: Colors.green, fontSize: 12),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  bool isSameMonth(DateTime date1, DateTime date2) {
+    return DateFormat('MMMM').format(date1) == DateFormat('MMMM').format(date2);
   }
 }
