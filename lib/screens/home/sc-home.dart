@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget with CustomColors {
                       fontStyle: FontStyle.italic,
                       fontSize: 16,
                       color: Colors.grey,
-              ),
+                    ),
                   ));
                 }
 
@@ -92,8 +92,8 @@ class HomeScreen extends StatelessWidget with CustomColors {
                   children: [
                     ...carController.carLists.map(
                       (car) => _buildCarCard(car: car),
-              ),
-            ],
+                    ),
+                  ],
                 );
               })
             ],
@@ -206,14 +206,14 @@ class HomeScreen extends StatelessWidget with CustomColors {
             dateRangeController: dateRangeController,
           );
         },
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          hintStyle: TextStyle(color: grey),
+          hintText: 'Search',
+          suffixIcon: Icon(Icons.search, color: grey),
         ),
-        hintStyle: TextStyle(color: grey),
-        hintText: 'Search',
-        suffixIcon: Icon(Icons.search, color: grey),
-      ),
       ),
     );
   }
