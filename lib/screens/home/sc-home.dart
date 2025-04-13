@@ -21,6 +21,14 @@ class HomeScreen extends StatelessWidget with CustomColors {
 
   late Size size;
 
+  BookDateRangeController dateRangeController =
+      Get.put(BookDateRangeController());
+
+  BookSearchController searchController = Get.put(BookSearchController());
+
+  AvailableFilteredCarController carController =
+      Get.put(AvailableFilteredCarController());
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
