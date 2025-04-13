@@ -64,34 +64,38 @@ class HomeScreen extends StatelessWidget with CustomColors {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildSearchField(),
-              gap(size.width * 0.1),
+              Obx(() {
+                return _buildSearchFilters(
+                    searchController: searchController,
+                    rangeController: dateRangeController);
+              }),
+              gap(size.width * 0.06),
               _buildSectionHeader('Available Cars'),
               gap(size.width * 0.02),
-              _buildCarCard(
-                title: 'Toyota Fortuner',
-                price: '₱ 5,000/day',
-                imageUrl:
-                    'http://d1hv7ee95zft1i.cloudfront.net/custom/blog-post-photo/gallery/toyota-fortuner-630f315461ab8.jpg',
+              Obx(() {
+                if (carController.carLists.isEmpty) {
+                  return const Center(
+                      child: Text(
+                    'No cars found.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 16,
+                      color: Colors.grey,
               ),
-              _buildCarCard(
-                title: 'Gallardo GT3',
-                price: '₱ 30,000/day',
-                imageUrl:
-                    'https://static.lambocars.com/wp-content/uploads/2020/12/2013_gallardo_gt3_fl2_2.jpg',
+                  ));
+                }
+
+                return Wrap(
+                  runSpacing: size.width * 0.02,
+                  spacing: size.width * 0.02,
+                  children: [
+                    ...carController.carLists.map(
+                      (car) => _buildCarCard(car: car),
               ),
-              _buildCarCard(
-                title: 'Mustang Ford',
-                price: '₱ 20,000/day',
-                imageUrl:
-                    'https://www.waynephillisford.com.au/media-files/inventory/38693311-0733-4d4b-90a8-8e21d78f375e/e87cbb7a-47b8-46d9-9b1c-c7ab497ec142/large-image.jpg',
-              ),
-              _buildCarCard(
-                title: 'Chevrolet Camaro',
-                price: '₱ 20,000/day',
-                imageUrl:
-                    'https://www.financialexpress.com/wp-content/uploads/2024/06/Chevrolet_Camaro_SS.jpg?w=620',
-              ),
+            ],
+                );
+              })
             ],
           ),
         ),
