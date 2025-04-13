@@ -11,6 +11,9 @@ import 'package:get/get.dart';
 class CarInformationScreen extends StatelessWidget {
   CarInformationScreen({super.key});
   late Size size;
+  CarInformationController carInformationController =
+      Get.put(CarInformationController());
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
