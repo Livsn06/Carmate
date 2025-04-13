@@ -1,16 +1,33 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:car_reservation_system/controllers/ct-available-filtered-car.dart';
+import 'package:car_reservation_system/controllers/ct-book-date-range.dart';
+import 'package:car_reservation_system/controllers/ct-book-search.dart';
+import 'package:car_reservation_system/models/md-car-infornation.dart';
 import 'package:car_reservation_system/screens/car/sc-car-information.dart';
 import 'package:car_reservation_system/screens/notification/sc-notif.dart';
+import 'package:car_reservation_system/utils/date-range-picker.dart';
 import 'package:car_reservation_system/utils/gap.dart';
 import 'package:car_reservation_system/utils/navigation.dart';
 import 'package:car_reservation_system/utils/ui/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../../utils/date-formatter.dart';
 
 class HomeScreen extends StatelessWidget with CustomColors {
   HomeScreen({super.key});
 
   late Size size;
+
+  BookDateRangeController dateRangeController =
+      Get.put(BookDateRangeController());
+
+  BookSearchController searchController = Get.put(BookSearchController());
+
+  AvailableFilteredCarController carController =
+      Get.put(AvailableFilteredCarController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,34 +64,38 @@ class HomeScreen extends StatelessWidget with CustomColors {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildSearchField(),
-              gap(size.width * 0.1),
+              Obx(() {
+                return _buildSearchFilters(
+                    searchController: searchController,
+                    rangeController: dateRangeController);
+              }),
+              gap(size.width * 0.06),
               _buildSectionHeader('Available Cars'),
               gap(size.width * 0.02),
-              _buildCarCard(
-                title: 'Toyota Fortuner',
-                price: '₱ 5,000/day',
-                imageUrl:
-                    'http://d1hv7ee95zft1i.cloudfront.net/custom/blog-post-photo/gallery/toyota-fortuner-630f315461ab8.jpg',
-              ),
-              _buildCarCard(
-                title: 'Gallardo GT3',
-                price: '₱ 30,000/day',
-                imageUrl:
-                    'https://static.lambocars.com/wp-content/uploads/2020/12/2013_gallardo_gt3_fl2_2.jpg',
-              ),
-              _buildCarCard(
-                title: 'Mustang Ford',
-                price: '₱ 20,000/day',
-                imageUrl:
-                    'https://www.waynephillisford.com.au/media-files/inventory/38693311-0733-4d4b-90a8-8e21d78f375e/e87cbb7a-47b8-46d9-9b1c-c7ab497ec142/large-image.jpg',
-              ),
-              _buildCarCard(
-                title: 'Chevrolet Camaro',
-                price: '₱ 20,000/day',
-                imageUrl:
-                    'https://www.financialexpress.com/wp-content/uploads/2024/06/Chevrolet_Camaro_SS.jpg?w=620',
-              ),
+              Obx(() {
+                if (carController.carLists.isEmpty) {
+                  return const Center(
+                      child: Text(
+                    'No cars found.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ));
+                }
+
+                return Wrap(
+                  runSpacing: size.width * 0.02,
+                  spacing: size.width * 0.02,
+                  children: [
+                    ...carController.carLists.map(
+                      (car) => _buildCarCard(car: car),
+                    ),
+                  ],
+                );
+              })
             ],
           ),
         ),
@@ -82,16 +103,125 @@ class HomeScreen extends StatelessWidget with CustomColors {
     );
   }
 
-  Widget _buildSearchField() {
-    return TextField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  Widget _dateRangeLabel(
+      {required BookDateRangeController dateRangeController}) {
+    DateTime start = dateRangeController.dateRange!.start;
+    DateTime end = dateRangeController.dateRange!.end;
+    String valueRange = '';
+
+    if (start.isAtSameMomentAs(end)) {
+      valueRange = formatDate(format: 'MMMM d', date: start);
+    } else if (isSameMonth(start, end)) {
+      valueRange =
+          '${formatDate(format: 'MMMM d', date: start)} - ${formatDate(format: 'd', date: end)}';
+    } else {
+      valueRange =
+          '${formatDate(format: 'MMMM d', date: start)} - ${formatDate(format: 'MMMM d', date: end)}';
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: TextStyle(
+              fontSize: size.width * 0.03,
+              decoration: TextDecoration.underline,
+              fontStyle: FontStyle.italic,
+              color: primary_80,
+            ),
+            text: ' Date Range: ',
+            children: [
+              TextSpan(
+                text: valueRange,
+              ),
+            ],
+          ),
+          textAlign: TextAlign.start,
         ),
-        hintStyle: TextStyle(color: grey),
-        hintText: 'Search',
-        suffixIcon: Icon(Icons.search, color: grey),
+        gap(0, width: size.width * 0.05),
+        GestureDetector(
+          onTap: () {
+            dateRangeController.clearDateRange();
+
+            carController.filterResults(
+              queryController: searchController,
+              dateRangeController: dateRangeController,
+            );
+          },
+          child: Text(
+            'Reset',
+            style: TextStyle(
+              decorationColor: Colors.red,
+              decoration: TextDecoration.underline,
+              fontSize: size.width * 0.04,
+              fontStyle: FontStyle.italic,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchFilters({
+    required BookSearchController searchController,
+    required BookDateRangeController rangeController,
+  }) {
+    return Wrap(
+      runSpacing: size.width * 0.02,
+      children: [
+        Row(
+          children: [
+            _buildSearchField(
+              searchController.textController,
+            ),
+            gap(0, width: size.width * 0.03),
+            _buildDateRangePicker(onPressed: () async {
+              var selectedRange = await selectDateRange();
+              rangeController.setDateRange(selectedRange);
+
+              carController.filterResults(
+                queryController: searchController,
+                dateRangeController: rangeController,
+              );
+            }),
+          ],
+        ),
+        if (rangeController.dateRange != null)
+          _dateRangeLabel(dateRangeController: rangeController),
+      ],
+    );
+  }
+
+  Widget _buildSearchField(TextEditingController controller) {
+    return Expanded(
+      child: TextField(
+        controller: controller,
+        onChanged: (value) {
+          searchController.setSearchQuery(value);
+          carController.filterResults(
+            queryController: searchController,
+            dateRangeController: dateRangeController,
+          );
+        },
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          hintStyle: TextStyle(color: grey),
+          hintText: 'Search',
+          suffixIcon: Icon(Icons.search, color: grey),
+        ),
       ),
+    );
+  }
+
+  Widget _buildDateRangePicker({Function()? onPressed}) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: const Icon(Icons.calendar_month),
     );
   }
 
@@ -109,32 +239,47 @@ class HomeScreen extends StatelessWidget with CustomColors {
     );
   }
 
-  Widget _buildCarCard({
-    required String title,
-    required String price,
-    required String imageUrl,
-  }) {
+  Widget _buildCarCard({required CarInformation car}) {
     return GestureDetector(
-      onTap: () => navigateTo(route: CarInformationScreen()),
+      onTap: () => navigateTo(route: CarInformationScreen(), arguments: car.id),
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.02),
           child: ListTile(
             leading: Image.network(
-              imageUrl,
+              car.imageUrl,
               width: size.width * 0.3,
               height: size.width * 0.3,
               fit: BoxFit.cover,
             ),
             title: Text(
-              title,
+              car.name,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(price),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  car.transmission,
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                gap(size.width * 0.02),
+                Text(car.rental_price),
+                gap(size.width * 0.01),
+                Text(
+                  car.status,
+                  style: const TextStyle(color: Colors.green, fontSize: 12),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  bool isSameMonth(DateTime date1, DateTime date2) {
+    return DateFormat('MMMM').format(date1) == DateFormat('MMMM').format(date2);
   }
 }
