@@ -103,8 +103,109 @@ class HomeScreen extends StatelessWidget with CustomColors {
     );
   }
 
-  Widget _buildSearchField() {
-    return TextField(
+  Widget _dateRangeLabel(
+      {required BookDateRangeController dateRangeController}) {
+    DateTime start = dateRangeController.dateRange!.start;
+    DateTime end = dateRangeController.dateRange!.end;
+    String valueRange = '';
+
+    if (start.isAtSameMomentAs(end)) {
+      valueRange = formatDate(format: 'MMMM d', date: start);
+    } else if (isSameMonth(start, end)) {
+      valueRange =
+          '${formatDate(format: 'MMMM d', date: start)} - ${formatDate(format: 'd', date: end)}';
+    } else {
+      valueRange =
+          '${formatDate(format: 'MMMM d', date: start)} - ${formatDate(format: 'MMMM d', date: end)}';
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: TextStyle(
+              fontSize: size.width * 0.03,
+              decoration: TextDecoration.underline,
+              fontStyle: FontStyle.italic,
+              color: primary_80,
+            ),
+            text: ' Date Range: ',
+            children: [
+              TextSpan(
+                text: valueRange,
+              ),
+            ],
+          ),
+          textAlign: TextAlign.start,
+        ),
+        gap(0, width: size.width * 0.05),
+        GestureDetector(
+          onTap: () {
+            dateRangeController.clearDateRange();
+
+            carController.filterResults(
+              queryController: searchController,
+              dateRangeController: dateRangeController,
+            );
+          },
+          child: Text(
+            'Reset',
+            style: TextStyle(
+              decorationColor: Colors.red,
+              decoration: TextDecoration.underline,
+              fontSize: size.width * 0.04,
+              fontStyle: FontStyle.italic,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchFilters({
+    required BookSearchController searchController,
+    required BookDateRangeController rangeController,
+  }) {
+    return Wrap(
+      runSpacing: size.width * 0.02,
+      children: [
+        Row(
+          children: [
+            _buildSearchField(
+              searchController.textController,
+            ),
+            gap(0, width: size.width * 0.03),
+            _buildDateRangePicker(onPressed: () async {
+              var selectedRange = await selectDateRange();
+              rangeController.setDateRange(selectedRange);
+
+              carController.filterResults(
+                queryController: searchController,
+                dateRangeController: rangeController,
+              );
+            }),
+          ],
+        ),
+        if (rangeController.dateRange != null)
+          _dateRangeLabel(dateRangeController: rangeController),
+      ],
+    );
+  }
+
+  Widget _buildSearchField(TextEditingController controller) {
+    return Expanded(
+      child: TextField(
+        controller: controller,
+        onChanged: (value) {
+          searchController.setSearchQuery(value);
+          carController.filterResults(
+            queryController: searchController,
+            dateRangeController: dateRangeController,
+          );
+        },
       decoration: InputDecoration(
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
