@@ -3,6 +3,7 @@
 import 'package:car_reservation_system/controllers/ct-available-filtered-car.dart';
 import 'package:car_reservation_system/controllers/ct-book-date-range.dart';
 import 'package:car_reservation_system/controllers/ct-book-search.dart';
+import 'package:car_reservation_system/controllers/ct-car-information.dart';
 import 'package:car_reservation_system/models/md-car-infornation.dart';
 import 'package:car_reservation_system/screens/car/sc-car-information.dart';
 import 'package:car_reservation_system/screens/notification/sc-notif.dart';
@@ -28,6 +29,9 @@ class HomeScreen extends StatelessWidget with CustomColors {
 
   AvailableFilteredCarController carController =
       Get.put(AvailableFilteredCarController());
+
+  CarInformationController carInfoController =
+      Get.put(CarInformationController());
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +245,10 @@ class HomeScreen extends StatelessWidget with CustomColors {
 
   Widget _buildCarCard({required CarInformation car}) {
     return GestureDetector(
-      onTap: () => navigateTo(route: CarInformationScreen(), arguments: car.id),
+      onTap: () {
+        carInfoController.setCarByID(car.id);
+        navigateTo(route: CarInformationScreen());
+      },
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.02),
