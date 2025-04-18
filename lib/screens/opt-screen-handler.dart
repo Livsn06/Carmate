@@ -1,5 +1,6 @@
 import 'package:car_reservation_system/controllers/ct-screen-handler-index.dart';
 import 'package:car_reservation_system/screens/booking/sc-book-list.dart';
+import 'package:car_reservation_system/screens/profile/sc-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home/sc-home.dart';
@@ -10,7 +11,8 @@ class ScreenHandler extends StatelessWidget {
 
   final List<Widget> screens = [
     HomeScreen(),
-    const BookListScreen(),
+    BookingListScreen(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
