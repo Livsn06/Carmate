@@ -29,6 +29,9 @@ class HomeScreen extends StatelessWidget with CustomColors {
   AvailableFilteredCarController carController =
       Get.put(AvailableFilteredCarController());
 
+  CarInformationController carInfoController =
+      Get.put(CarInformationController());
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -241,7 +244,10 @@ class HomeScreen extends StatelessWidget with CustomColors {
 
   Widget _buildCarCard({required CarInformation car}) {
     return GestureDetector(
-      onTap: () => navigateTo(route: CarInformationScreen(), arguments: car.id),
+      onTap: () {
+        carInfoController.setCarByID(car.id);
+        navigateTo(route: CarInformationScreen());
+      },
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(size.width * 0.02),
