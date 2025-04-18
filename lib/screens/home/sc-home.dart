@@ -3,6 +3,7 @@
 import 'package:car_reservation_system/controllers/ct-available-filtered-car.dart';
 import 'package:car_reservation_system/controllers/ct-book-date-range.dart';
 import 'package:car_reservation_system/controllers/ct-book-search.dart';
+import 'package:car_reservation_system/controllers/ct-car-information.dart';
 import 'package:car_reservation_system/models/md-car-infornation.dart';
 import 'package:car_reservation_system/screens/car/sc-car-information.dart';
 import 'package:car_reservation_system/screens/notification/sc-notif.dart';
