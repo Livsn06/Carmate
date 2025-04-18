@@ -16,8 +16,6 @@ class CarInformationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    carInformationController.onReady();
-
     //
     size = MediaQuery.of(context).size;
     return Scaffold(
