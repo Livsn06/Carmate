@@ -2,6 +2,7 @@
 
 import 'package:car_reservation_system/controllers/ct-car-information.dart';
 import 'package:car_reservation_system/models/md-car-infornation.dart';
+import 'package:car_reservation_system/screens/booking/sc-booking-rental-info.dart';
 import 'package:car_reservation_system/utils/gap.dart';
 import 'package:custom_accordion/custom_accordion.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,15 @@ class CarInformationScreen extends StatelessWidget {
                   ),
                   gap(size.width * 0.04),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const BookingInformationScreen(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(size.width * 0.6, size.width * 0.1),
                       foregroundColor: Colors.white,
